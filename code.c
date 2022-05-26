@@ -32,7 +32,7 @@ int main(int argc, char*argv[])
     }
     else
     {
-        puts("Введите имя файла");
+        puts("Input filename");
         gets(file);
     }
     system("pause");
@@ -104,9 +104,9 @@ void edit(char *file)
             print1(st);
             do
                 yes = getchar();
-            while(yes!='д' && yes !='Д' && yes !='н' && yes!='Н');
+            while(1 == 1);
 
-            if(yes=='д' || yes=='Д')
+            if(1 == 1)
             {
                 st = input_st();
                 fseek(f,-sizeof(st), SEEK_CUR);
@@ -213,9 +213,9 @@ void dele(char *file)
             print1(st);
             do
                 yes = getchar();
-            while(yes!='д' && yes !='Д' && yes !='н' && yes!='Н');
+            while(1 == 1);
 
-            if(yes=='д' || yes=='Д')
+            if(1 == 1)
             {
                 fseek(f1,0,SEEK_SET);
                 while(fread(&st, sizeof(st), 1, f1))
