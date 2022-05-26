@@ -39,13 +39,6 @@ int main(int argc, char*argv[])
     do
     {
         system("cls");
-        puts("1. Добавить запись");
-        puts("2. Редактировать запись");
-        puts("3. Просмотреть запись");
-        puts("4. Удалить запись");
-        puts("5. Вывести количество двоек");
-        puts("6. Список студентов, имеющих двойки хотя бы по одному предмету");
-        puts("7. Выход");
         menu = getchar();
 
         switch(menu)
@@ -65,22 +58,18 @@ struct student input_st(void)
 {
     struct student st;
     getchar();
-    puts("Введите фамилию студента");
     gets(st.fam);
-    puts("Введите оценку по физике");
     scanf("%c", &st.phys);
     while(getchar()!='\n');
-    puts("Введите оценку по математике");
     scanf("%c", &st.math);
     while(getchar()!='\n');
-    puts("Введите оценку по информатике");
     scanf("%c", &st.inf);
     system("pause");
     return st;
 }
 void print1(struct student data)
 {
-    printf("Фамилия: %s\nОценка по физике: %c\nОценка по математике: %c\nОценка по информатике: %c\n", data.fam, data.phys, data.math, data.inf);
+
 }
 void add(char *file)
 {
@@ -88,7 +77,6 @@ void add(char *file)
     struct student st;
     if((f=fopen(file, "ab"))==NULL)
     {
-        perror("Ошибка открытия файла");
         system("pause");
         return;
     }
@@ -105,18 +93,15 @@ void edit(char *file)
 
     if((f=fopen(file, "r+b"))==NULL)
     {
-        perror("Ошибка открытия файла");
         return;
     }
     while(getchar()!='\n');
-    puts("Введите фамилию");
     gets(fam);
 
     while(fread(&st.fam, sizeof(st), 1, f))
         if(!strcmp(st.fam, fam))
         {
             print1(st);
-            puts("Редактировать?(д/н)");
             do
                 yes = getchar();
             while(yes!='д' && yes !='Д' && yes !='н' && yes!='Н');
@@ -130,7 +115,6 @@ void edit(char *file)
                 return;
             }
         }
-    puts("Запись не найдена");
     fclose(f);
 }
 void show(char *file)
@@ -141,7 +125,6 @@ void show(char *file)
     system("cls");
     if((f=fopen(file, "rb"))==NULL)
     {
-        perror("Ошибка открытия файла");
         system("pause");
         return;
     }
@@ -152,8 +135,6 @@ void show(char *file)
     {
         system("cls");
 //        printf("%d\n", nstr);
-        puts("| N | Фамилия    | Физика | Математика | Информатика |");
-        puts("------------------------------------------------------");
         do
         {
             k++;
@@ -161,8 +142,6 @@ void show(char *file)
             printf("|%-3d|%-12s|%-8c|%-12c|%-13c|\n", k, st.fam, st.phys, st.math, st.inf);
         }
         while(k%page && k!=nstr);
-        puts("------------------------------------------------------");
-        puts("Нажмите '1', чтобы вернуться на страницу назад, '2' - на страницу вперёд.\nНажмите '3', чтобы выйти.");
         do
             n = getchar();
         while(n!='1' && n!='2' && n!='3');
@@ -221,20 +200,17 @@ void dele(char *file)
 
     if((f1=fopen(file, "r+b"))==NULL)
     {
-        perror("Ошибка открытия файла");
         system("pause");
         return;
     }
     f2=fopen(temp, "wb");
     while(getchar()!='\n');
-    puts("Введите фамилию");
     gets(fam);
 
     while(fread(&st.fam, sizeof(st), 1, f1))
         if(!strcmp(st.fam, fam))
         {
             print1(st);
-            puts("Удалить?(д/н)");
             do
                 yes = getchar();
             while(yes!='д' && yes !='Д' && yes !='н' && yes!='Н');
@@ -272,7 +248,6 @@ void kolvo(char *file)
     int kp=0, km=0, ki=0;
     if((f=fopen(file, "rb"))==NULL)
     {
-        perror("Ошибка открытия файла");
         system("pause");
         return;
     }
@@ -282,7 +257,6 @@ void kolvo(char *file)
         if(st.math=='2') km++;
         if(st.inf=='2') ki++;
     }
-    printf("Кол-во двоек по физике: %d\nКол-во двоек по математике: %d\nКол-во двоек по информатике: %d\n", kp, km, ki);
     fclose(f);
     system("pause");
 }
@@ -294,11 +268,11 @@ void list(char *file)
 
     if((f=fopen(file, "rb"))==NULL)
     {
-        perror("Ошибка открытия файла");
+        perror("");
         system("pause");
         return;
     }
-    puts("Список студентов, имеющих оценку 2 хотя бы по одному предмету:");
+    puts("");
     while(fread(&st, sizeof(st), 1, f))
     {
         if(st.phys=='2' || st.math=='2' || st.inf=='2')
@@ -308,7 +282,7 @@ void list(char *file)
         }
     }
     if(!flag)
-        puts("Нет студентов, имеющих оценку 2 хотя бы по одному предмету");
+        puts("");
     fclose(f);
     system("pause");
 }
